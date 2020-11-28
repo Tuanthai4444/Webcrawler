@@ -5,6 +5,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
@@ -15,7 +16,8 @@ public class Parser {
         workList = links;
     }
 
-    public void parseText() throws IOException {
+    public List<String> parseText() throws IOException {
+        List<String> textTranscripts = new ArrayList<>();
         for(String url : workList) {
             Connection conn = Jsoup.connect(url).
                     userAgent("Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201");
@@ -23,10 +25,13 @@ public class Parser {
 
             Elements element = doc.select("p");
             for (Element t : element) {
-                System.out.println(t.text());
+                textTranscripts.add(t.text());
             }
         }
+        return textTranscripts;
     }
+
+
 
 
 }

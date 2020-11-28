@@ -8,6 +8,6 @@ public class test {
             System.out.println(url);
         }
         Parser parser = new Parser(crawler.linkList);
-        parser.parseText();
+        System.out.println(parser.parseText().toString().length());
     }
 }
