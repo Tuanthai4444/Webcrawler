@@ -9,33 +9,25 @@ import org.jsoup.select.Elements;
 
 public class Crawler {
 
-    List<String> linkList;
+    List<String> linksList;
     int maxLinks;
 
-    public Crawler(String url, int max) {
-        try {
-            this.maxLinks = max;
-            this.linkList = linkCrawl(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Crawler(int max) {
+        this.maxLinks = max;
+        this.linksList = new ArrayList<>();
     }
 
-    public Crawler(String url) {
-        try {
-            this.maxLinks = 1;
-            this.linkList = linkCrawl(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Crawler() {
+        this.maxLinks = 1;
+        this.linksList = new ArrayList<>();
     }
 
     public List<String> getLinkList() {
-        return this.linkList;
+        return this.linksList;
     }
 
     public void setLinkList(List<String> list) {
-        this.linkList = list;
+        this.linksList = list;
     }
 
     public int getMaxLinks() {
@@ -46,44 +38,49 @@ public class Crawler {
         this.maxLinks = max;
     }
 
-    private List<String> linkCrawl(String url) throws IOException {
+    public void startCrawl(String url) {
         Set<String> visited = new HashSet<>();
         Queue<String> toVisit = new LinkedList<>();
-        List<String> linkList = new ArrayList<>();
+        List<String> list = new ArrayList<>();
 
         toVisit.add(url);
         visited.add(url);
-        linkList.add(url);
+        list.add(url);
 
-        while(!toVisit.isEmpty() && linkList.size() < maxLinks) {
+        while(!toVisit.isEmpty() && list.size() < maxLinks) {
             String currentUrl = toVisit.remove();
 
             List<String> innerLinks = innerLinkCrawl(currentUrl);
             for(String link : innerLinks) {
-                if(visited.size() > maxLinks) {
+                if(visited.size() >= maxLinks) {
                     break;
                 }
 
                 if(!visited.contains(link)) {
                     toVisit.add(link);
                     visited.add(link);
-                    linkList.add(link);
+                    list.add(link);
                 }
             }
         }
 
-        return linkList;
+        this.linksList = list;
     }
 
-    private List<String> innerLinkCrawl(String url) throws IOException {
+    private List<String> innerLinkCrawl(String url) {
         List<String> links = new ArrayList<>();
-        Connection conn = Jsoup.connect(url)
-                            .userAgent("Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201");
-        Document doc = conn.get();
+        try {
+            Connection conn = Jsoup.connect(url)
+                    .userAgent("Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201");
+            Document doc = conn.get();
 
-        Elements pageLinks = doc.select("a[href]");
-        for(Element link : pageLinks) {
-            links.add(link.absUrl("href"));
+            Elements pageLinks = doc.select("a[href]");
+            for (Element link : pageLinks) {
+                links.add(link.absUrl("href"));
+            }
+            return links;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return links;
     }
