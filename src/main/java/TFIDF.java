@@ -1,27 +1,33 @@
 import java.util.*;
 
-public class TFIDFCalculator {
+public class TFIDF {
 
     private final WordCounter counter;
     private IDF idf;
     private TF tf;
 
-    public TFIDFCalculator(WordCounter counter) {
+    public TFIDF(WordCounter counter) {
         this.counter = counter;
-        this.idf = null;
-        this.tf = null;
+        this.idf = new IDF();
+        this.tf = new TF();
     }
 
-    public void setIDF(IDF idf) {
-        this.idf = idf;
+    public IDF getIdf() {
+        return this.idf;
     }
 
-    public void setTF(TF tf) {
-        this.tf = tf;
+    public TF getTf() {
+        return this.tf;
     }
 
-    public double getTFIDF(TF tf, IDF idf) {
-        return (tf.getValue() * idf.getValue());
+    public double getTFIDF() {
+        if(tf.getValue() == 0) {
+           throw new IllegalArgumentException("Cannot Have A Zero TF");
+        } else if (idf.getValue() == 0){
+            throw new IllegalArgumentException("Cannot Have A Zero IDF");
+        } else {
+            return (this.tf.getValue() * this.idf.getValue());
+        }
     }
 
     public class IDF {
@@ -36,7 +42,7 @@ public class TFIDFCalculator {
             return this.value;
         }
 
-        public void RegIDF(String word) {
+        public void SetRegIDF(String word) {
             double contains = 0;
             List<Map<String, Integer>> map = counter.getAllDocsWC();
             for(Map<String, Integer> d : map) {
@@ -49,7 +55,7 @@ public class TFIDFCalculator {
             this.value = Math.log(size/contains);
         }
 
-        public void smoothIDF(String word) {
+        public void SetSmoothIDF(String word) {
             double contains = 0;
             List<Map<String, Integer>> map = counter.getAllDocsWC();
             for(Map<String, Integer> d : map) {
@@ -62,7 +68,7 @@ public class TFIDFCalculator {
             this.value = Math.log(size/(contains+1)) + 1;
         }
 
-        public void maxIDF(int selectedDoc, String word) {
+        public void SetMaxIDF(int selectedDoc, String word) {
             double contains = 0;
             List<Map<String, Integer>> list = counter.getAllDocsWC();
             Map<String, Integer> map1 = list.get(selectedDoc);
@@ -78,7 +84,7 @@ public class TFIDFCalculator {
             this.value = Math.log(maxOccurTerm/(contains+1));
         }
 
-        public void probabilisticIDF(String word) {
+        public void SetProbabilisticIDF(String word) {
             double contains = 0;
             List<Map<String, Integer>> map = counter.getAllDocsWC();
             for(Map<String, Integer> d : map) {
@@ -110,11 +116,11 @@ public class TFIDFCalculator {
             return (double)map.get(word);
         }
 
-        public void RawTF(int selectedDoc, String word) {
+        public void SetRawTF(int selectedDoc, String word) {
             this.value = RetRawTF(selectedDoc, word);
         }
 
-        public void RegTF(int selectedDoc, String word) {
+        public void SetRegTF(int selectedDoc, String word) {
             List<String[]> list = counter.getAllDocsSplit();
             String[] array = list.get(selectedDoc);
             double value = array.length;
@@ -122,11 +128,11 @@ public class TFIDFCalculator {
             this.value = RetRawTF(selectedDoc, word)/value;
         }
 
-        public void LogNormTF(int selectedDoc, String word) {
+        public void SetLogNormTF(int selectedDoc, String word) {
             this.value = Math.log(RetRawTF(selectedDoc, word) + 1);
         }
 
-        public void doubleNormHalfValTF(int selectedDoc, String word) {
+        public void SetDoubleNormHalfValTF(int selectedDoc, String word) {
             List<Map<String, Integer>> list = counter.getAllDocsWC();
             Map<String, Integer> map = list.get(selectedDoc);
             double maxOccurTerm = Collections.max(map.values());
@@ -134,7 +140,7 @@ public class TFIDFCalculator {
             this.value = 0.5 + (0.5 * (RetRawTF(selectedDoc, word)/maxOccurTerm));
         }
 
-        public void doubleNormKValTF(int selectedDoc, String word, double k) {
+        public void SetDoubleNormKValTF(int selectedDoc, String word, double k) {
             List<Map<String, Integer>> list = counter.getAllDocsWC();
             Map<String, Integer> map = list.get(selectedDoc);
             double maxOccurTerm = Collections.max(map.values());
