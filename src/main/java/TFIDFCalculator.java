@@ -2,21 +2,38 @@ import java.util.*;
 
 public class TFIDFCalculator {
 
-    List<String> texts;
-    WordCounter counter;
+    private final WordCounter counter;
+    private IDF idf;
+    private TF tf;
 
-    public TFIDFCalculator(List<String> texts) {
-        this.texts = texts;
-        counter = new WordCounter(texts);
+    public TFIDFCalculator(WordCounter counter) {
+        this.counter = counter;
+        this.idf = null;
+        this.tf = null;
     }
 
+    public void setIDF(IDF idf) {
+        this.idf = idf;
+    }
+
+    public void setTF(TF tf) {
+        this.tf = tf;
+    }
+
+    public double getTFIDF(TF tf, IDF idf) {
+        return (tf.getValue() * idf.getValue());
+    }
 
     public class IDF {
 
-        double value;
+        private double value;
 
         public IDF() {
             this.value = 0.0;
+        }
+
+        public double getValue() {
+            return this.value;
         }
 
         public void RegIDF(String word) {
@@ -77,10 +94,14 @@ public class TFIDFCalculator {
 
     public class TF {
 
-        double value;
+        private double value;
 
         public TF() {
             this.value = 0;
+        }
+
+        public double getValue() {
+            return this.value;
         }
 
         public double RetRawTF(int selectedDoc, String word) {
