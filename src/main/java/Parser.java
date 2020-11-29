@@ -24,14 +24,8 @@ public class Parser {
             Document doc = conn.get();
 
             Elements element = doc.select("p");
-            for (Element t : element) {
-                textTranscripts.add(t.text());
-            }
+            textTranscripts.add(element.text());
         }
         return textTranscripts;
     }
-
-
-
-
 }

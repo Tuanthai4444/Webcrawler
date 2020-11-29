@@ -7,27 +7,43 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class Spider {
+public class Crawler {
 
     List<String> linkList;
     int maxLinks;
 
-    public Spider(String url, int max) {
+    public Crawler(String url, int max) {
         try {
-            maxLinks = max;
-            linkList = linkCrawl(url);
+            this.maxLinks = max;
+            this.linkList = linkCrawl(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Spider(String url) {
+    public Crawler(String url) {
         try {
-            maxLinks = 1;
-            linkList = linkCrawl(url);
+            this.maxLinks = 1;
+            this.linkList = linkCrawl(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<String> getLinkList() {
+        return this.linkList;
+    }
+
+    public void setLinkList(List<String> list) {
+        this.linkList = list;
+    }
+
+    public int getMaxLinks() {
+        return this.maxLinks;
+    }
+
+    public void setMaxLinks(int max) {
+        this.maxLinks = max;
     }
 
     private List<String> linkCrawl(String url) throws IOException {
