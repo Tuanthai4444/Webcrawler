@@ -10,7 +10,7 @@ public class ParseImportantWordsTest {
         //Test the crawler for getting nested links
         //Should print out n-1 other links along with passed link for total of n
         Crawler crawler = new Crawler(MAX_LINKS);
-        crawler.startCrawl("https://en.wikipedia.org/wiki/Hippocampus");
+        crawler.startCrawl("https://en.wikipedia.org/wiki/Schizophrenia");
         List<String> listOfLinks = crawler.getLinkList();
         for(String url : listOfLinks) {
             System.out.println(url);
@@ -53,8 +53,6 @@ public class ParseImportantWordsTest {
         System.out.println();
 
         //Tests the TFIDF for correct word to TF*IDF mapping for nth document with K val
-        //Should print out map representation of word to TF*IDF value and map size SORTED
-        //then finally set size
         Map<String, Double> result = new TreeMap<>();
         Map<String, Integer> selectedDocWC = counter.getAllDocsWC().get(SELECTED_DOC);
         Map<String, Double> idfCheck = new TreeMap<>();
@@ -87,15 +85,16 @@ public class ParseImportantWordsTest {
             sortedResult.put(e.getKey(), e.getValue());
         }
 
-
-        System.out.println(sortedResult);
-        System.out.println(sortedResult.size());
-
-        System.out.println();
-
         //Test the idf and tf for correctness
         System.out.println(idfCheck);
         System.out.println(tfCheck);
+
+        System.out.println();
+
+        //Should print out map representation of word to TF*IDF value and map size SORTED
+        //then finally set size
+        System.out.println(sortedResult);
+        System.out.println(sortedResult.size());
     }
 
 
