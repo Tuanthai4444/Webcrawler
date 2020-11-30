@@ -44,7 +44,8 @@ public class ParseImportantWordsTest {
 
         System.out.println();
 
-        //
+        //Tests the TFIDF for correct word to TF*IDF mapping for nth document with K val
+        //Should print out map representation of word to TF*IDF value and map size SORTED
         Map<String, Double> result = new TreeMap<>();
         Map<String, Integer> selectedDocWC = counter.getAllDocsWC().get(SELECTED_DOC);
 
@@ -63,17 +64,21 @@ public class ParseImportantWordsTest {
             double wordVal = tfIdf.getTFIDF();
             result.put(word, wordVal);
         }
-        valueComparator comparator = new valueComparator(result);
-        Map<String, Double> sortedResult = new TreeMap<>(comparator);
-        sortedResult.putAll(result);
+
+        List<Map.Entry<String, Double>> list = new ArrayList<>(result.entrySet());
+        list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        Map<String, Double> sortedResult = new LinkedHashMap<>();
+        for(Map.Entry<String, Double> e : list) {
+            sortedResult.put(e.getKey(), e.getValue());
+        }
 
         System.out.println(sortedResult);
         System.out.println(sortedResult.size());
     }
 
-
     public static class valueComparator implements Comparator<String> {
-        Map<String, Double> map = new TreeMap<>();
+        TreeMap<String, Double> map = new TreeMap<>();
 
         public valueComparator(Map<String, Double> map) {
             this.map.putAll(map);
