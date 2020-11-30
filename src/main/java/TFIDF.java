@@ -8,8 +8,8 @@ public class TFIDF {
 
     public TFIDF(WordCounter counter) {
         this.counter = counter;
-        this.idf = new IDF();
-        this.tf = new TF();
+        this.idf = null;
+        this.tf = null;
     }
 
     public void setIdf(IDF idf) {
@@ -21,15 +21,23 @@ public class TFIDF {
     }
 
     public double getTFIDF() {
-        return (this.tf.getValue() * this.idf.getValue());
+        if(idf == null) {
+            throw new IllegalArgumentException("Set IDF Before Calculating TFIDF!");
+        } else if(tf == null) {
+            throw new IllegalArgumentException("Set TF Before Calculating TFIDF!");
+        } else {
+            return (this.tf.getValue() * this.idf.getValue());
+        }
     }
 
-    public class IDF {
+    public static class IDF {
 
         private double value;
+        private final WordCounter counter;
 
-        public IDF() {
+        public IDF(WordCounter counter) {
             this.value = 0.0;
+            this.counter = counter;
         }
 
         public double getValue() {
@@ -92,12 +100,14 @@ public class TFIDF {
         }
     }
 
-    public class TF {
+    public static class TF {
 
         private double value;
+        private final WordCounter counter;
 
-        public TF() {
+        public TF(WordCounter counter) {
             this.value = 0;
+            this.counter = counter;
         }
 
         public double getValue() {

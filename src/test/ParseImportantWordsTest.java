@@ -51,23 +51,28 @@ public class ParseImportantWordsTest {
         for(String word : selectedDocWC.keySet()) {
             TFIDF tfIdf = new TFIDF(counter);
 
-            TFIDF.IDF idf = tfIdf.new IDF();
+            TFIDF.IDF idf = new TFIDF.IDF(counter);
             idf.SetRegIDF(word);
 
-            TFIDF.TF tf = tfIdf.new TF();
+            TFIDF.TF tf = new TFIDF.TF(counter);
             tf.SetDoubleNormKValTF(SELECTED_DOC, word, K_VAL);
 
             tfIdf.setIdf(idf);
             tfIdf.setTf(tf);
 
             double wordVal = tfIdf.getTFIDF();
+            result.put(word, wordVal);
         }
-        System.out.println(result);
+        valueComparator comparator = new valueComparator(result);
+        Map<String, Double> sortedResult = new TreeMap<>(comparator);
+        sortedResult.putAll(result);
+
+        System.out.println(sortedResult);
+        System.out.println(sortedResult.size());
     }
 
 
-    public class valueComparator implements Comparator<String> {
-
+    public static class valueComparator implements Comparator<String> {
         Map<String, Double> map = new TreeMap<>();
 
         public valueComparator(Map<String, Double> map) {
@@ -76,9 +81,7 @@ public class ParseImportantWordsTest {
 
         @Override
         public int compare(String s1, String s2) {
-            if() {
-
-            }
+            return Double.compare(map.get(s2), map.get(s1));
         }
     }
 }
