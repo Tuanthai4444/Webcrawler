@@ -20,6 +20,14 @@ public class TFIDF {
         this.tf = tf;
     }
 
+    public TF getTf() {
+        return tf;
+    }
+
+    public IDF getIdf() {
+        return idf;
+    }
+
     public double getTFIDF() {
         if(idf == null) {
             throw new IllegalArgumentException("Set IDF Before Calculating TFIDF!");
@@ -149,7 +157,7 @@ public class TFIDF {
             Map<String, Integer> map = list.get(selectedDoc);
             double maxOccurTerm = Collections.max(map.values());
 
-            this.value = k + (k * (RetRawTF(selectedDoc, word)/maxOccurTerm));
+            this.value = k + ((1 - k) * (RetRawTF(selectedDoc, word)/maxOccurTerm));
         }
     }
 
