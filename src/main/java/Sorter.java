@@ -19,8 +19,6 @@ public class Sorter {
 
         for(String word : selectedDocWC.keySet()) {
             TFIDF tfIdf = new TFIDF(counter);
-            tfIdf.getIdf().SetRegIDF(word);
-            tfIdf.getTf().SetDoubleNormKValTF(SELECTED_DOC, word, K_VAL);
             double wordVal = tfIdf.getTFIDF();
             ret.put(wordVal, word);
         }

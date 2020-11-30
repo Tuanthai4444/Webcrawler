@@ -17,7 +17,8 @@ public class WordCounter {
         List<String[]> allDocsSplit = new ArrayList<>();
 
         for(String s : texts) {
-            String[] split = s.split(" ");
+            s = s.trim().replaceAll("[^a-zA-Z0-9]", " ").toLowerCase();
+            String[] split = s.split("\\s+");
             allDocsSplit.add(split);
         }
         return allDocsSplit;
@@ -29,8 +30,8 @@ public class WordCounter {
         for(String[] sw : allDocsSplit) {
             Map<String, Integer> wordCount = new HashMap<>();
             for (String w : sw) {
-                int value = wordCount.getOrDefault(w, 1);
-                wordCount.put(w, value);
+                int value = wordCount.getOrDefault(w, 0);
+                wordCount.put(w, value + 1);
             }
             allDocsWC.add(wordCount);
         }

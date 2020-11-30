@@ -12,22 +12,16 @@ public class TFIDF {
         this.tf = new TF();
     }
 
-    public IDF getIdf() {
-        return this.idf;
+    public void setIdf(IDF idf) {
+        this.idf = idf;
     }
 
-    public TF getTf() {
-        return this.tf;
+    public void setTf(TF tf) {
+        this.tf = tf;
     }
 
     public double getTFIDF() {
-        if(tf.getValue() == 0) {
-           throw new IllegalArgumentException("Cannot Have A Zero TF");
-        } else if (idf.getValue() == 0){
-            throw new IllegalArgumentException("Cannot Have A Zero IDF");
-        } else {
-            return (this.tf.getValue() * this.idf.getValue());
-        }
+        return (this.tf.getValue() * this.idf.getValue());
     }
 
     public class IDF {
