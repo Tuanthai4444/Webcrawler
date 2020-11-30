@@ -33,7 +33,7 @@ public class ParseImportantWordsTest {
         //Test the word counter for correct word to word count mapping for nth document
         //Should print out array string representation of split nth document
         //Should print out map representation of each word to word count and then finally
-        //word set size.
+        //word set size
         WordCounter counter = new WordCounter(parseList);
         String[] split = counter.getAllDocsSplit().get(SELECTED_DOC);
         Map<String, Integer> nthDocument = counter.allDocsWC.get(SELECTED_DOC);
