@@ -21,13 +21,13 @@ processing algorithms/techniques.
 - Multiple BM25 options :x:
 - Document link scraper other file/link types :x:
 - Optimized scraper scanning web and credible journals/websites :x:
-
+-
 - TF-IDF algorithms for important word selection :heavy_check_mark:
 - Multiple TF-IDF operations and customizable K-val TF :heavy_check_mark:
 - Customer focused design based on TF-IDF option benchmarking/use cases :heavy_check_mark:
 - Bag of words style pruning :heavy_check_mark:
 - Single document focused pruning :x:
 - PCA and LSA implementations and researchings :x:
-
+-
 - Document summarization (TF-IDF) :heavy_check_mark:
 - Optimized document summarization :x: 
