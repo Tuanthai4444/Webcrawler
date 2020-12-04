@@ -5,12 +5,12 @@ public class ParseImportantWordsTest {
 
     public static void main(String[] args) throws IOException {
         final int SELECTED_DOC = 0;
-        final int MAX_LINKS = 50;
+        final int MAX_LINKS = 100;
         final double K_VAL = 0.4;
         //Test the crawler for getting nested links
         //Should print out n-1 other links along with passed link for total of n
         Crawler crawler = new Crawler(MAX_LINKS);
-        crawler.startCrawl("https://en.wikipedia.org/wiki/Schizophrenia");
+        crawler.startCrawl("https://en.wikipedia.org/wiki/World_War_II");
         List<String> listOfLinks = crawler.getLinkList();
         for(String url : listOfLinks) {
             System.out.println(url);
