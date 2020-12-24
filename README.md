@@ -15,6 +15,9 @@ documents for key information. KeyText allows the capturing of important
 key words and the creation of summarized text through utilizing language and text
 processing algorithms/techniques.
 
+### Usages ###
+Currently KeyText is being used within EduScribe.
+
 ### KeyText RoadMap ###
 - Document link scraper HTML :heavy_check_mark:
 - Okapi BM25 algorithm for document selection :heavy_check_mark:
